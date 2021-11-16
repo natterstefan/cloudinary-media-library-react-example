@@ -1,24 +1,74 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useRef, useState } from 'react';
+import useScript from 'react-script-hook'
 
 function App() {
+  const [ref, setRef] = useState<HTMLDivElement | null>(null)
+// ATTENTION: ensure we only initialised _one_ media library!
+const [rendered, setHasRendered] = useState(false)
+const [loading, setLoading] = useState(true)
+
+  useScript({
+    src: 'https://media-library.cloudinary.com/global/all.js',
+    checkForExisting: true,
+    onload: () => {
+      console.log('Script loaded!')
+      setLoading(false)
+      
+      // @ts-expect-error see index.html
+      initMediaLibrary()
+    },
+  })
+  const mediaLibrary = useRef<any>()
+
+  useEffect(() => {
+    if (loading || !ref || rendered) {
+      return
+    }
+
+    const config = {
+      cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
+      api_key: process.env.REACT_APP_CLOUDINARY_API_KEY,
+      insert_caption: "REACT CHOOSE",
+      remove_header: true,
+    }
+
+    // ATTACH TO REACT NODE
+    console.log('REACT start useEffect', ref, document.getElementById('cloudinary-for-react'))
+    mediaLibrary.current = (window as any).cloudinary.openMediaLibrary(
+      {
+        ...config,
+        inline_container: ref,
+      },
+      {
+        insertHandler: (data: any) => {
+          console.log('REACT insertHandler App.tsx', data)
+        },
+      },
+    )
+
+    // ATTACH TO WWW NODE (see index.html)
+    const wwwMediaLibrary = (window as any).cloudinary.openMediaLibrary(
+      {
+        ...config,
+        inline_container: document.getElementById('cloudinary-for-react'),
+      },
+      {
+        insertHandler: (data: any) => {
+          console.log('REACT insertHandler App.tsx', data)
+        },
+      },
+    )
+
+    // mediaLibrary.current.show()
+    setHasRendered(true)
+    console.log('REACT mediaLibrary instance', mediaLibrary);
+    console.log('REACT WWW wwwMediaLibrary instance', wwwMediaLibrary);
+  }, [loading, ref, rendered])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>REACT</h2>
+      <div ref={setRef} style={{height: '45vh', paddingBottom: '5vh'}}></div>
     </div>
   );
 }
