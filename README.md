@@ -2,6 +2,15 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Requirements
+
+Add your API KEY and Cloudname into `.env` before running this example:
+
+```bash
+REACT_APP_CLOUDINARY_CLOUD_NAME=""
+REACT_APP_CLOUDINARY_API_KEY=""
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
