@@ -37,7 +37,9 @@ const [loading, setLoading] = useState(true)
     mediaLibrary.current = (window as any).cloudinary.openMediaLibrary(
       {
         ...config,
-        inline_container: ref,
+        // ATTENTION: it works when rendered as a modal dialog, not when using `inline_container`
+        // inline_container: ref,
+        inline_container: document.getElementById('cloudinary-in-react'),
       },
       {
         insertHandler: (data: any) => {
@@ -68,7 +70,7 @@ const [loading, setLoading] = useState(true)
   return (
     <div className="App">
       <h2>REACT</h2>
-      <div ref={setRef} style={{height: '45vh', paddingBottom: '5vh'}}></div>
+      <div ref={setRef} id="cloudinary-in-react" style={{height: '45vh', paddingBottom: '5vh'}}></div>
     </div>
   );
 }
