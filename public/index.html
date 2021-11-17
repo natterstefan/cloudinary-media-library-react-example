@@ -25,15 +25,20 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <link
+      href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
   </head>
-  <body style="padding:8px;">
+  <body class="p-12">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <h2>REACT WITH NODE IN INDEX.HTML</h2>
-    <div id="cloudinary-for-react" style="height:45vh;padding-bottom:5vh;"></div>
-
-    <h2>WITHOUT REACT</h2>
-    <div id="cloudinary-index" style="height:45vh;"></div>
+    <div
+      class="empty mt-10"
+      id="cloudinary-for-react"
+      style="height: 80vh; padding-bottom: 5vh"
+    ></div>
+    <div class="empty mt-10" id="cloudinary-index" style="height: 80vh"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -47,10 +52,11 @@
     <script type="text/javascript">
       function initMediaLibrary() {
         console.log('WWW start initMediaLibrary', window.cloudinary)
-        const myLibrary = window.cloudinary.openMediaLibrary({
+        const myLibrary = window.cloudinary.openMediaLibrary(
+          {
             cloud_name: '%REACT_APP_CLOUDINARY_CLOUD_NAME%',
-            api_key:  '%REACT_APP_CLOUDINARY_API_KEY%',
-            insert_caption: "WWW CHOOSE",
+            api_key: '%REACT_APP_CLOUDINARY_API_KEY%',
+            insert_caption: 'WWW CHOOSE',
             inline_container: document.getElementById('cloudinary-index'),
             remove_header: true,
           },
@@ -65,7 +71,7 @@
         )
 
         myLibrary.show()
-        console.log('WWW myLibrary instance', myLibrary);
+        console.log('WWW myLibrary instance', myLibrary)
       }
     </script>
     <!-- <script src="https://media-library.cloudinary.com/global/all.js" onload="initMediaLibrary();"></script> -->
