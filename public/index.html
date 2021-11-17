@@ -55,13 +55,16 @@
             remove_header: true,
           },
           {
+            showHandler: () => {
+              console.log('WWW showHandler index.html')
+            },
             insertHandler: data => {
               console.log('WWW insertHandler index.html', data)
             },
           },
         )
 
-        // myLibrary.show()
+        myLibrary.show()
         console.log('WWW myLibrary instance', myLibrary);
       }
     </script>

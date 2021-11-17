@@ -33,7 +33,7 @@ const [loading, setLoading] = useState(true)
     }
 
     // ATTACH TO REACT NODE
-    console.log('REACT start useEffect', ref, document.getElementById('cloudinary-for-react'))
+    console.log('REACT start useEffect')
     mediaLibrary.current = (window as any).cloudinary.openMediaLibrary(
       {
         ...config,
@@ -61,7 +61,23 @@ const [loading, setLoading] = useState(true)
       },
     )
 
-    // mediaLibrary.current.show()
+    // RENDER AS MODAL (ATTENTION: this works, mediaLibrary's case not)
+    const modalView = (window as any).cloudinary.openMediaLibrary(
+      {
+        ...config,
+      },
+      {
+        insertHandler: (data: any) => {
+          console.log('MODAL insertHandler App.tsx', data)
+        },
+      },
+    )
+
+    modalView.on('close', () => {
+      console.log('MODAL modalView closed')
+    })
+    
+
     setHasRendered(true)
     console.log('REACT mediaLibrary instance', mediaLibrary);
     console.log('REACT WWW wwwMediaLibrary instance', wwwMediaLibrary);
